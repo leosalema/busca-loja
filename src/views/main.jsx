@@ -16,6 +16,7 @@ import {
   Title,
   Subtitle
 } from '../styles/main'
+import { ContainerGlobal} from '../styles/app'
 import Details from './details'
 import Stores from '../service/stores'
 
@@ -29,14 +30,14 @@ const Main = () => {
   const store = new Stores()
   const [isDetails, setDetails] = useState(false)
   const [values, setValues] = useState(INITIAL_VALUE)
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState('')
   const [citySearch, setCitySearch] = useState('')
   const [, setNotValues] = useState(false)
 
   const changeModal = async () => {
     setDetails(false)
-    setSearch('');
-    getData();
+    setSearch('')
+    getData()
   }
 
   const openModal = item => {
@@ -45,8 +46,8 @@ const Main = () => {
   }
 
   const handleSearch = event => {
-    let search = event.target.value
-    setSearch(search);
+    const search = event.target.value
+    setSearch(search)
   }
 
   const handleCity = event => {
@@ -54,13 +55,13 @@ const Main = () => {
   }
 
   const searchStore = () => {
-      const register = values.data.filter(item => item.name.toLowerCase() === search.toLowerCase());
-      if (register[0]) {
-        setNotValues(false)
-        setValues({ ...values, list: register })
-      } else {
-        setNotValues(true)
-      }
+    const register = values.data.filter(item => item.name.toLowerCase() === search.toLowerCase())
+    if (register[0]) {
+      setNotValues(false)
+      setValues({ ...values, list: register })
+    } else {
+      setNotValues(true)
+    }
   }
 
   const searchCity = async event => {
@@ -75,25 +76,24 @@ const Main = () => {
   }
 
   const searchCitySelect = async () => {
-    const register = await values.data.filter(item => item.city.toLowerCase() === citySearch.toLowerCase());
+    const register = await values.data.filter(item => item.city.toLowerCase() === citySearch.toLowerCase())
     setValues({ ...values, list: register })
   }
 
   const getLocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(displayLocationInfo);
+      const displayLocationInfo = (position) => {
+        const lng = position.coords.longitude
+        const lat = position.coords.latitude
 
-      function displayLocationInfo(position) {
-        const lng = position.coords.longitude;
-        const lat = position.coords.latitude;
-
-        let stores = values.data.filter(item => {
+        const stores = values.data.filter(item => {
           if (((item.lat + 0.005) >= lat && (item.lat - 0.005) <= lat) || ((item.lng + 0.005) >= lng && (item.lng - 0.005) <= lng)) {
-            return item;
+            return item
           }
         })
         setValues({ ...values, list: stores })
       }
+      navigator.geolocation.getCurrentPosition(displayLocationInfo)
     }
   }
 
@@ -118,6 +118,7 @@ const Main = () => {
 
   return (
     <div>
+      <ContainerGlobal />
       <Container>
         <Headers>
           <Title>Encontre a Cobasi mais próxima de você</Title>
@@ -158,7 +159,7 @@ const Main = () => {
           <List>
             {values.list.map((item, key) => (
               <Item key={key} onClick={() => openModal(item)}>
-                Cobasi - {item.name}<span>></span>
+                Cobasi - {item.name}<span>&#62;</span>
               </Item>
             ))}
           </List>
@@ -166,7 +167,7 @@ const Main = () => {
         <BoxGray>
           {isDetails && <Details handleModal={changeModal} data={values.item} />}
         </BoxGray>
-      </Container>}
+      </Container>
     </div>
   )
 }

@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components'
 
-export const Container = createGlobalStyle`
+export const ContainerGlobal = createGlobalStyle`
 *{
     box-sizing:border-box;
 }

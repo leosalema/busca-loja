@@ -4,18 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
-  // margin: 0;
-  // padding: 0;typ
-  // width: 100%;
-  // height: 100%;
-  // font-size: 1.2em;
-  // font-family: Arial;
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
-  // background-color: rgb(247,245,250);
-  // color: rgb(31,54,128);
+  font-family: Arial;
 `
 
 export const Headers = styled.header`
@@ -32,13 +21,13 @@ export const Title = styled.h1`
   color: #ff6500;
   font-weight: 600;
   text-align: center;
-`;
+`
 
 export const Subtitle = styled.p`
   padding-top: 0.3em;
   font-size: 1.5em;
   color: #333;
-`;
+`
 
 export const BoxGray = styled.div`
   background: #f8f6fb;
@@ -49,7 +38,7 @@ export const BoxGray = styled.div`
     font-size: 1.4em;
     padding-top: 16px;
   }
-`;
+`
 
 export const Header = styled.div`
   flex-direction: row;  
