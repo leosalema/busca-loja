@@ -113,7 +113,7 @@ const Main = () => {
       { city: [], state: [] }
     )
     const totalPages = Math.ceil(data.length / values.itensPerPage)
-    
+
     const list = data.filter((item, index) => index >= values.skip && index < values.limit)
     setValues({ data: data, state: newData.state, city: newData.city, list, totalItens: data.length, totalPages })
   }
@@ -122,8 +122,8 @@ const Main = () => {
     const limit = page * 10
     const skip = limit - 10
     const list = values.data.filter((item, index) => index >= skip && index < limit)
-    await setValues({...values, currentPage: page, skip, limit, list})
-}
+    await setValues({ ...values, currentPage: page, skip, limit, list })
+  }
 
   useEffect(() => {
     getData()
@@ -176,7 +176,7 @@ const Main = () => {
               </Item>
             ))}
           </List>
-          <Paginations totalPages={values.totalPages} changePage={handlePage} currentPage={values.currentPage}/>
+          <Paginations totalPages={values.totalPages} changePage={handlePage} currentPage={values.currentPage} />
         </BoxGray>
         <BoxGray>
           {isDetails && <Details data={values.item} />}

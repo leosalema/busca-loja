@@ -26,8 +26,8 @@ export const Header = styled.div`
     align-items: center;
 `
 
-export const Back = styled.span`
-    margin: 25px;
+export const Image = styled.img`
+    width: 300px;
 `
 
 export const List = styled.ul`

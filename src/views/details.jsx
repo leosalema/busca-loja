@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Body, Label, Footer, Days, Header, Hour, Item, ItemColumn, List } from '../styles/details'
+import { Container, Body, Label, Footer, Days, Header, Hour, Item, ItemColumn, List, Image } from '../styles/details'
 
 const Details = props => {
   const { shopBusinessHours, petCareClinicBusinessHours, showerBusinessHours, address, image, name } = props.data
@@ -7,7 +7,7 @@ const Details = props => {
     <Container>
       <Header>
         <span>{name}</span>
-        <img alt='' src={image} />
+        <Image alt='' src={image} />
       </Header>
       <Body>
         <List>
