@@ -16,8 +16,9 @@ import {
   Title,
   Subtitle
 } from '../styles/main'
-import { ContainerGlobal} from '../styles/app'
+import { ContainerGlobal } from '../styles/app'
 import Details from './details'
+import Paginations from '../components/pagination'
 import Stores from '../service/stores'
 
 const Main = () => {
@@ -25,7 +26,13 @@ const Main = () => {
     data: [],
     state: [],
     city: [],
-    list: []
+    list: [],
+    itensPerPage: 10,
+    totalItens: 0,
+    currentPage: 1,
+    skip: 0,
+    limit: 10,
+    totalPages: []
   }
   const store = new Stores()
   const [isDetails, setDetails] = useState(false)
@@ -33,12 +40,6 @@ const Main = () => {
   const [search, setSearch] = useState('')
   const [citySearch, setCitySearch] = useState('')
   const [, setNotValues] = useState(false)
-
-  const changeModal = async () => {
-    setDetails(false)
-    setSearch('')
-    getData()
-  }
 
   const openModal = item => {
     setDetails(true)
@@ -58,6 +59,7 @@ const Main = () => {
     const register = values.data.filter(item => item.name.toLowerCase() === search.toLowerCase())
     if (register[0]) {
       setNotValues(false)
+      setSearch('')
       setValues({ ...values, list: register })
     } else {
       setNotValues(true)
@@ -90,6 +92,7 @@ const Main = () => {
           if (((item.lat + 0.005) >= lat && (item.lat - 0.005) <= lat) || ((item.lng + 0.005) >= lng && (item.lng - 0.005) <= lng)) {
             return item
           }
+          return null
         })
         setValues({ ...values, list: stores })
       }
@@ -109,8 +112,18 @@ const Main = () => {
       },
       { city: [], state: [] }
     )
-    setValues({ data: data, state: newData.state, city: newData.city, list: data })
+    const totalPages = Math.ceil(data.length / values.itensPerPage)
+    
+    const list = data.filter((item, index) => index >= values.skip && index < values.limit)
+    setValues({ data: data, state: newData.state, city: newData.city, list, totalItens: data.length, totalPages })
   }
+
+  const handlePage = async page => {
+    const limit = page * 10
+    const skip = limit - 10
+    const list = values.data.filter((item, index) => index >= skip && index < limit)
+    await setValues({...values, currentPage: page, skip, limit, list})
+}
 
   useEffect(() => {
     getData()
@@ -163,9 +176,10 @@ const Main = () => {
               </Item>
             ))}
           </List>
+          <Paginations totalPages={values.totalPages} changePage={handlePage} currentPage={values.currentPage}/>
         </BoxGray>
         <BoxGray>
-          {isDetails && <Details handleModal={changeModal} data={values.item} />}
+          {isDetails && <Details data={values.item} />}
         </BoxGray>
       </Container>
     </div>
